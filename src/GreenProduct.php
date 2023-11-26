@@ -22,5 +22,19 @@ Class GreenProduct
         $this->type = $type;
         $this->quantity = $quantity;
         $this->unit = $unit;
+        $this->translateWeightUnits();
+    }
+
+    /**
+     * Transforms the weight in grams when it comes as kilograms
+     * 
+     * @return void 
+     */
+    private function translateWeightUnits(): void
+    {
+        if ($this->unit === 'kg') {
+            $this->quantity = $this->quantity * 1000;
+            $this->unit = 'g';
+        }
     }
 }
