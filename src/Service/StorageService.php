@@ -7,10 +7,9 @@ use App\GreenProduct;
 
 class StorageService
 {
-    protected string $request = '';
-
     protected const FRUIT = 'fruit';
     protected const VEGETABLE = 'vegetable';
+    protected string $request = '';
 
     public function __construct(
         string $request

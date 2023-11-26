@@ -35,8 +35,6 @@ class StorageServiceTest extends TestCase
         ]';
  
         $this->sut = new StorageService($this->inputRequestMock);
-        // var_dump($this->requestArray);
-        // var_dump($this->sut);
     }
 
     public function testClassifyGreens(): void
