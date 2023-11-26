@@ -6,7 +6,7 @@ use App\GreenProduct;
 
 class GreensCollection
 {
-    private array $greensCollection;
+    private array $greensCollection = [];
 
     public function getGreens(): array
     {
@@ -19,8 +19,9 @@ class GreensCollection
             = $greenProduct;
     }
 
-    public function remove()
+    public function remove(int $id): array
     {
+        return array_splice($this->greensCollection, $id,1);
     }
 
     public function list()

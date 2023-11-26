@@ -2,18 +2,17 @@
 
 namespace App\Tests\App\Service;
 
-use App\GreenProduct;
 use App\Service\StorageService;
 use App\GreensCollection;
 use PHPUnit\Framework\TestCase;
 
 class StorageServiceTest extends TestCase
 {
-    /** @var string */
-    private $inputRequestMock;
-
     /** @var StorageService */
     private $sut;
+
+    /** @var string */
+    private $inputRequestMock;
 
     public function setUp(): void
     {
@@ -46,5 +45,6 @@ class StorageServiceTest extends TestCase
         $this->assertInstanceOf(GreensCollection::class, $sutResult['Fruits']);
         $this->assertInstanceOf(GreensCollection::class, $sutResult['Vegetables']);
         $this->assertEquals("Potatoes", $sutResult["Vegetables"]->getGreens()[0]->name);
+        $this->assertEquals("fruit", $sutResult["Fruits"]->getGreens()[0]->type);
     }
 }
