@@ -2,18 +2,17 @@
 
 namespace App\Service;
 
-use App\GreensCollection;
-use App\GreenProduct;
+use App\Domain\GreenProductsCollection;
+use App\Domain\GreenProduct;
 
 class StorageService
 {
-    protected const FRUIT = 'fruit';
-    protected const VEGETABLE = 'vegetable';
-    protected string $request = '';
+    private string $request;
 
     public function __construct(
         string $request
-    ) {
+    ) 
+    {
         $this->request = $request;
     }
 
@@ -23,34 +22,49 @@ class StorageService
     }
 
     /**
-     * Main service function taking a json request as a string, and returning classified collections.
+     * Main service function taking a json request as a string and returning classified collections
+     * with their weight in grams.
      * 
-     * @return array of GreensCollection
+     * @return array of GreenProductsCollection
      */
     public function classifyGreens(): array
     {
         $requestArray = json_decode($this->request, true);
-        $fruitsCollection = new GreensCollection();
-        $vegetablesCollection = new GreensCollection();
+        $fruitsCollection = new GreenProductsCollection();
+        $vegetablesCollection = new GreenProductsCollection();
+
+        $sortedCollections = [
+            "fruit" => $fruitsCollection,
+            "vegetable" => $vegetablesCollection
+        ];
 
         foreach ($requestArray as $greenData) {
+            $greenData = $this->translateWeightUnits($greenData);
             $greenProduct = new GreenProduct(
-                $greenData['id'],
-                $greenData['name'],
-                $greenData['type'],
-                $greenData['quantity'],
-                $greenData['unit']
+                $greenData["id"],
+                $greenData["name"],
+                $greenData["type"],
+                $greenData["quantity"],
+                $greenData["unit"]
             );
-            if ($greenProduct->type === self::FRUIT) {
-                $fruitsCollection->addGreenProduct($greenProduct);
-            } elseif ($greenProduct->type === self::VEGETABLE) {
-                $vegetablesCollection->addGreenProduct($greenProduct);
-            }
+            $sortedCollections[$greenProduct->getType()]->add($greenProduct);
         }
-        
-        return [
-            'Fruits'=> $fruitsCollection,
-            'Vegetables'=> $vegetablesCollection
-        ];
+
+        return $sortedCollections;
+    }
+
+    /**
+     * Calculates the weight in grams for storage, when it comes as kilograms
+     * 
+     * @return array 
+     */
+    private function translateWeightUnits($greenData): array
+    {
+        if ($greenData["unit"] === "kg") {
+            $greenData["quantity"] = $greenData["quantity"] * 1000;
+            $greenData["unit"] = "g";
+        }
+
+        return $greenData;
     }
 }
