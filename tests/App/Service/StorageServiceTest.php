@@ -23,10 +23,13 @@ class StorageServiceTest extends TestCase
 
         $this->assertArrayHasKey("fruit", $sutResult);
         $this->assertArrayHasKey("vegetable", $sutResult);
+
         $this->assertInstanceOf(GreenProductsCollection::class, $sutResult["fruit"]);
         $this->assertInstanceOf(GreenProductsCollection::class, $sutResult["vegetable"]);
+
         $this->assertEquals("Carrot", $sutResult["vegetable"]->list()[0]->getName());
         $this->assertEquals("fruit", $sutResult["fruit"]->list()[0]->getType());
+        
         $this->assertEquals(20000.0, $sutResult["fruit"]->list()[0]->getQuantity());
         $this->assertEquals("g", $sutResult["fruit"]->list()[0]->getUnit());
     }

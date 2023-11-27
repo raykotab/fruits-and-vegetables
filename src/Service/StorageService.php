@@ -29,7 +29,7 @@ class StorageService
      */
     public function classifyGreens(): array
     {
-        $requestArray = json_decode($this->request, true);
+        $requestArray = \json_decode($this->request, true);
         $fruitsCollection = new GreenProductsCollection();
         $vegetablesCollection = new GreenProductsCollection();
 
