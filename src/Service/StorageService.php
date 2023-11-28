@@ -34,9 +34,8 @@ class StorageService
 
         foreach ($requestArray as $greenData) {
             $greenData = $this->translateWeightUnits($greenData);
-
+            
             $greenProduct = $this->instantiateProduct($greenData);
-
             $greenProduct->isFruit() ?
                 $sortedCollections["Fruits"]->add($greenProduct) :
                 $sortedCollections["Vegetables"]->add($greenProduct);
@@ -60,13 +59,14 @@ class StorageService
             "Vegetables" => $vegetablesCollection
         ];
     }
-    
+
     /**
      * Calculates the weight in grams for storage, when it comes as kilograms
+     * @param array
      * 
      * @return array 
      */
-    private function translateWeightUnits($greenData): array
+    private function translateWeightUnits(array $greenData): array
     {
         if ($greenData["unit"] === "kg") {
             $greenData["quantity"] = $greenData["quantity"] * 1000;
