@@ -11,8 +11,7 @@ class StorageService
 
     public function __construct(
         string $request
-    ) 
-    {
+    ) {
         $this->request = $request;
     }
 
@@ -30,31 +29,38 @@ class StorageService
     public function classifyGreens(): array
     {
         $requestArray = \json_decode($this->request, true);
-        $fruitsCollection = new GreenProductsCollection();
-        $vegetablesCollection = new GreenProductsCollection();
 
-        $sortedCollections = [
-            "Fruits" => $fruitsCollection,
-            "Vegetables" => $vegetablesCollection
-        ];
+        $sortedCollections = $this->instantiateCollections();
 
         foreach ($requestArray as $greenData) {
             $greenData = $this->translateWeightUnits($greenData);
-            $greenProduct = new GreenProduct(
-                $greenData["id"],
-                $greenData["name"],
-                $greenData["type"],
-                $greenData["quantity"],
-                $greenData["unit"]
-            );
+
+            $greenProduct = $this->instantiateProduct($greenData);
+
             $greenProduct->isFruit() ?
-            $sortedCollections["Fruits"]->add($greenProduct) :
-            $sortedCollections["Vegetables"]->add($greenProduct);
+                $sortedCollections["Fruits"]->add($greenProduct) :
+                $sortedCollections["Vegetables"]->add($greenProduct);
         }
 
         return $sortedCollections;
     }
 
+    /**
+     * This function instantiates both collections and returns them in array
+     * 
+     * @return array of GreenProductsCollection
+     */
+    private function instantiateCollections(): array
+    {
+        $fruitsCollection = new GreenProductsCollection();
+        $vegetablesCollection = new GreenProductsCollection();
+
+        return [
+            "Fruits" => $fruitsCollection,
+            "Vegetables" => $vegetablesCollection
+        ];
+    }
+    
     /**
      * Calculates the weight in grams for storage, when it comes as kilograms
      * 
@@ -68,5 +74,22 @@ class StorageService
         }
 
         return $greenData;
+    }
+
+    /**
+     * This function instantiates the product and returns it.
+     * @param array
+     * 
+     * @return GreenProduct 
+     */
+    private function instantiateProduct(array $greenData): GreenProduct
+    {
+        return new GreenProduct(
+            $greenData["id"],
+            $greenData["name"],
+            $greenData["type"],
+            $greenData["quantity"],
+            $greenData["unit"]
+        );
     }
 }
