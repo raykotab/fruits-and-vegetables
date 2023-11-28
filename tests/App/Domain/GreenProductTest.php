@@ -12,7 +12,7 @@ class GreenProductTest extends TestCase
     /**
      * @dataProvider provideWeightRequests
      */
-    public function testGetQuantity(
+    public function testGetWeightQuantity(
         float $weight,
         string $unit,
         string $requestUnit,
@@ -27,8 +27,8 @@ class GreenProductTest extends TestCase
             $unit
         );
 
-        $this->assertSame($expected[0], $this->sut->getQuantity($requestUnit));
-        $this->assertSame($expected[1], $this->sut->getUnit());
+        $this->assertSame($expected[0], $this->sut->getWeightQuantity($requestUnit));
+        $this->assertSame($expected[1], $this->sut->getWeightUnit());
     }
 
     public function provideWeightRequests(): array
@@ -51,6 +51,31 @@ class GreenProductTest extends TestCase
                 "unit" => "Kg",
                 "requestUnit" => "",
                 "expected" => [12.0, "Kg"]
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider isFruitProvider
+     */
+    public function testIsFruit(
+        GreenProduct $greenProduct,
+        bool $expected
+    ): void
+    {
+        $this->assertSame($expected, $greenProduct->isFruit());
+    }
+
+    public function isFruitProvider(): array
+    {
+        return [
+            "caseTrue" => [
+                new GreenProduct(1,"peaches","fruit", 12.5, "kg"),
+                "expected" => true
+            ],
+            "caseFalse" => [
+                new GreenProduct(1,"potatoes","vegetable", 12.5, "kg"),
+                "expected" => false
             ]
         ];
     }

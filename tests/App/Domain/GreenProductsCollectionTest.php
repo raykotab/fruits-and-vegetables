@@ -14,7 +14,6 @@ class GreenProductsCollectionTest extends TestCase
     private GreenProduct&MockObject $mockedGreenProduct2;
     private GreenProduct $mockedGreenProduct3;
 
-
     public function setUp(): void
     {
         $this->sut = new GreenProductsCollection();

@@ -7,22 +7,22 @@ class GreenProduct
     private int $id;
     private string $name;
     private string $type;
-    private float $quantity;
-    private string $unit;
+    private float $weightQuantity;
+    private string $weightUnit;
 
     public function __construct(
         int $id,
         string $name,
         string $type,
-        float $quantity,
-        string $unit
+        float $weightQuantity,
+        string $weightUnit
     ) 
     {
         $this->id = $id;
         $this->name = $name;
         $this->type = $type;
-        $this->quantity = $quantity;
-        $this->unit = $unit;
+        $this->weightQuantity = $weightQuantity;
+        $this->weightUnit = $weightUnit;
     }
 
     public function getId(): int
@@ -40,23 +40,28 @@ class GreenProduct
         return $this->type;
     }
 
-    public function getQuantity(?string $unit = ''): float
+    public function getWeightQuantity(?string $weightUnit = ''): float
     {
-        if (!empty($unit)) {
-            if ($unit === "kg" && $this->unit === "g") {
-                $this->quantity /= 1000;
-                $this->unit = "kg";
-            } elseif ($unit === "g" && $this->unit === "kg") {
-                $this->quantity *= 1000;
-                $this->unit = "g";
+        if (!empty($weightUnit)) {
+            if ($weightUnit === "kg" && $this->weightUnit === "g") {
+                $this->weightQuantity /= 1000;
+                $this->weightUnit = "kg";
+            } elseif ($weightUnit === "g" && $this->weightUnit === "kg") {
+                $this->weightQuantity *= 1000;
+                $this->weightUnit = "g";
             }
         }
 
-        return $this->quantity;
+        return $this->weightQuantity;
     }
 
-    public function getUnit(): string
+    public function getWeightUnit(): string
     {
-        return $this->unit;
+        return $this->weightUnit;
+    }
+
+    public function isFruit(): bool
+    {
+        return $this->type === "fruit";
     }
 }

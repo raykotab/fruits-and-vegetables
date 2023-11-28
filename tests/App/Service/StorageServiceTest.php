@@ -21,16 +21,16 @@ class StorageServiceTest extends TestCase
     {
         $sutResult = $this->sut->classifyGreens();
 
-        $this->assertArrayHasKey("fruit", $sutResult);
-        $this->assertArrayHasKey("vegetable", $sutResult);
+        $this->assertArrayHasKey("Fruits", $sutResult);
+        $this->assertArrayHasKey("Vegetables", $sutResult);
 
-        $this->assertInstanceOf(GreenProductsCollection::class, $sutResult["fruit"]);
-        $this->assertInstanceOf(GreenProductsCollection::class, $sutResult["vegetable"]);
+        $this->assertInstanceOf(GreenProductsCollection::class, $sutResult["Fruits"]);
+        $this->assertInstanceOf(GreenProductsCollection::class, $sutResult["Vegetables"]);
 
-        $this->assertEquals("Carrot", $sutResult["vegetable"]->list()[0]->getName());
-        $this->assertEquals("fruit", $sutResult["fruit"]->list()[0]->getType());
+        $this->assertEquals("Carrot", $sutResult["Vegetables"]->list()[0]->getName());
+        $this->assertEquals("fruit", $sutResult["Fruits"]->list()[0]->getType());
         
-        $this->assertEquals(20000.0, $sutResult["fruit"]->list()[0]->getQuantity());
-        $this->assertEquals("g", $sutResult["fruit"]->list()[0]->getUnit());
+        $this->assertEquals(20000.0, $sutResult["Fruits"]->list()[0]->getWeightQuantity());
+        $this->assertEquals("g", $sutResult["Fruits"]->list()[0]->getWeightUnit());
     }
 }
