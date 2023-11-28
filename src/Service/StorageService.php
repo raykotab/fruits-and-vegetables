@@ -34,8 +34,8 @@ class StorageService
         $vegetablesCollection = new GreenProductsCollection();
 
         $sortedCollections = [
-            "fruit" => $fruitsCollection,
-            "vegetable" => $vegetablesCollection
+            "Fruits" => $fruitsCollection,
+            "Vegetables" => $vegetablesCollection
         ];
 
         foreach ($requestArray as $greenData) {
@@ -47,7 +47,9 @@ class StorageService
                 $greenData["quantity"],
                 $greenData["unit"]
             );
-            $sortedCollections[$greenProduct->getType()]->add($greenProduct);
+            $greenProduct->isFruit() ?
+            $sortedCollections["Fruits"]->add($greenProduct) :
+            $sortedCollections["Vegetables"]->add($greenProduct);
         }
 
         return $sortedCollections;
